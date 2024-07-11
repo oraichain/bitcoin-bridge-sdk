@@ -48,6 +48,46 @@ export function encodeUint256(value: any): Uint8Array;
 */
 export function decodeUint256(value: Uint8Array): any;
 /**
+* @param {any} value
+* @returns {Uint8Array}
+*/
+export function encodeTransaction(value: any): Uint8Array;
+/**
+* @param {Uint8Array} value
+* @returns {any}
+*/
+export function decodeTransaction(value: Uint8Array): any;
+/**
+* @param {any} value
+* @returns {Uint8Array}
+*/
+export function encodePartialMerkleTree(value: any): Uint8Array;
+/**
+* @param {Uint8Array} value
+* @returns {any}
+*/
+export function decodePartialMerkleTree(value: Uint8Array): any;
+/**
+* @param {any} value
+* @returns {Uint8Array}
+*/
+export function toBinaryHeaderConfig(value: any): Uint8Array;
+/**
+* @param {Uint8Array} value
+* @returns {any}
+*/
+export function fromBinaryHeaderConfig(value: Uint8Array): any;
+/**
+* @param {any} value
+* @returns {Uint8Array}
+*/
+export function toBinaryWorkHeader(value: any): Uint8Array;
+/**
+* @param {Uint8Array} value
+* @returns {any}
+*/
+export function fromBinaryWorkHeader(value: Uint8Array): any;
+/**
 * @param {SignatorySet} sigset
 * @param {number} bridge_fee_rate
 * @param {number} miner_fee_rate
@@ -178,6 +218,49 @@ export interface Pubkey {
 }
 
 export type Signature = number[];
+
+export interface TxOut {
+    value: number;
+    script_pubkey: Script;
+}
+
+export interface Witness {
+    content: number[];
+    witness_elements: number;
+    last: number;
+    second_to_last: number;
+}
+
+export type Sequence = number;
+
+export type Script = number[];
+
+export interface OutPoint {
+    txid: Txid;
+    vout: number;
+}
+
+export interface TxIn {
+    previous_output: OutPoint;
+    script_sig: Script;
+    sequence: Sequence;
+    witness: Witness;
+}
+
+export interface Transaction {
+    version: number;
+    lock_time: PackedLockTime;
+    input: TxIn[];
+    output: TxOut[];
+}
+
+export type PackedLockTime = number;
+
+export interface PartialMerkleTree {
+    num_transactions: number;
+    bits: boolean[];
+    hashes: TxMerkleNode[];
+}
 
 export type Dest = { Address: string } | { Ibc: IbcDest };
 
