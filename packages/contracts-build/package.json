@@ -1,0 +1,10 @@
+{
+  "name": "@oraichain/cw-bitcoin-contracts-build",
+  "version": "1.0.24",
+  "main": "build/index.js",
+  "license": "MIT",
+  "files": [
+    "build/",
+    "data/"
+  ]
+}

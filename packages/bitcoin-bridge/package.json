@@ -1,0 +1,19 @@
+{
+  "name": "@oraichain/cw-bitcoin-bridge",
+  "version": "1.0.0",
+  "main": "src/index.ts",
+  "files": [
+    "src/"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@oraichain/cw-bitcoin-wasm": "0.1.0",
+    "@oraichain/cw-bitcoin-contracts-build": "1.0.24",
+    "@oraichain/cw-bitcoin-contracts-sdk": "1.0.31"
+  },
+  "devDependencies": {
+    "@oraichain/cw-simulate": "^2.8.55",
+    "cosmjs-types": "^0.8.0",
+    "ts-results": "^3.3.0"
+  }
+}
