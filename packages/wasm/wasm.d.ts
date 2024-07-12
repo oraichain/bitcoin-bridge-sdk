@@ -38,16 +38,6 @@ export function toBinaryScript(inner: Script): string;
 */
 export function fromBinaryScript(value: string): Script;
 /**
-* @param {Uint256} inner
-* @returns {string}
-*/
-export function toBinaryUint256(inner: Uint256): string;
-/**
-* @param {string} value
-* @returns {Uint256}
-*/
-export function fromBinaryUint256(value: string): Uint256;
-/**
 * @param {PartialMerkleTree} inner
 * @returns {string}
 */
@@ -58,15 +48,15 @@ export function toBinaryPartialMerkleTree(inner: PartialMerkleTree): string;
 */
 export function fromBinaryPartialMerkleTree(value: string): PartialMerkleTree;
 /**
-* @param {any} value
+* @param {Transaction} inner
 * @returns {string}
 */
-export function toBinaryTransaction(value: any): string;
+export function toBinaryTransaction(inner: Transaction): string;
 /**
 * @param {string} value
-* @returns {any}
+* @returns {Transaction}
 */
-export function fromBinaryTransaction(value: string): any;
+export function fromBinaryTransaction(value: string): Transaction;
 /**
 * @param {SignatorySet} sigset
 * @param {number} bridge_fee_rate
@@ -197,58 +187,6 @@ export interface Pubkey {
 
 export type Signature = number[];
 
-export interface TxOut {
-    value: number;
-    script_pubkey: Script;
-}
-
-export interface Witness {
-    content: number[];
-    witness_elements: number;
-    last: number;
-    second_to_last: number;
-}
-
-export type Sequence = number;
-
-export type Script = number[];
-
-export interface OutPoint {
-    txid: string;
-    vout: number;
-}
-
-export interface TxIn {
-    previous_output: OutPoint;
-    script_sig: Script;
-    sequence: Sequence;
-    witness: Witness;
-}
-
-export interface Transaction {
-    version: number;
-    lock_time: PackedLockTime;
-    input: TxIn[];
-    output: TxOut[];
-}
-
-export type PackedLockTime = number;
-
-export interface PartialMerkleTree {
-    num_transactions: number;
-    bits: boolean[];
-    hashes: TxMerkleNode[];
-}
-
-export interface BlockHeader {
-    version: number;
-    prev_blockhash: BlockHash;
-    merkle_root: TxMerkleNode;
-    time: number;
-    bits: number;
-    nonce: number;
-}
-
 export type Dest = { Address: string } | { Ibc: IbcDest };
 
 export interface IbcDest {
@@ -257,8 +195,6 @@ export interface IbcDest {
     timeout_timestamp: number;
     memo: string;
 }
-
-export type Uint256 = number[];
 
 export interface DepositIndex {
     receiver_index: ReceiverIndex;
@@ -275,4 +211,49 @@ export interface Deposit {
     amount: number;
     height: number | null;
 }
+
+export interface PartialMerkleTree {
+    num_transactions: number;
+    bits: boolean[];
+    hashes: TxMerkleNode[];
+}
+
+export interface BlockHeader {
+    version: number;
+    prev_blockhash: BlockHash;
+    merkle_root: TxMerkleNode;
+    time: number;
+    bits: number;
+    nonce: number;
+}
+
+export interface Transaction {
+    version: number;
+    lock_time: PackedLockTime;
+    input: TxIn[];
+    output: TxOut[];
+}
+
+export interface TxOut {
+    value: number;
+    script_pubkey: Script;
+}
+
+export type Sequence = number;
+
+export interface TxIn {
+    previous_output: OutPoint;
+    script_sig: Script;
+    sequence: Sequence;
+    witness: Witness;
+}
+
+export interface OutPoint {
+    txid: Txid;
+    vout: number;
+}
+
+export type Script = number[];
+
+export type PackedLockTime = number;
 

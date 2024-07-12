@@ -8,8 +8,6 @@ export function toBinaryBlockHeader(a: number, b: number): void;
 export function fromBinaryBlockHeader(a: number, b: number, c: number): void;
 export function toBinaryScript(a: number, b: number): void;
 export function fromBinaryScript(a: number, b: number, c: number): void;
-export function toBinaryUint256(a: number, b: number): void;
-export function fromBinaryUint256(a: number, b: number, c: number): void;
 export function toBinaryPartialMerkleTree(a: number, b: number): void;
 export function fromBinaryPartialMerkleTree(a: number, b: number, c: number): void;
 export function toBinaryTransaction(a: number, b: number): void;
