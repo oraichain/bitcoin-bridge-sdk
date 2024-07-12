@@ -19,74 +19,54 @@ export function newHeaderConfig(height: number, block_header: any): HeaderConfig
 export function newWorkHeader(header_config: HeaderConfig): WorkHeader;
 /**
 * @param {any} value
-* @returns {Uint8Array}
+* @returns {string}
 */
-export function encodeBlockHeader(value: any): Uint8Array;
+export function toBinaryBlockHeader(value: any): string;
 /**
-* @param {Uint8Array} value
+* @param {string} value
 * @returns {any}
 */
-export function decodeBlockHeader(value: Uint8Array): any;
+export function fromBinaryBlockHeader(value: string): any;
 /**
 * @param {any} value
-* @returns {Uint8Array}
+* @returns {string}
 */
-export function encodeScript(value: any): Uint8Array;
+export function toBinaryScript(value: any): string;
 /**
-* @param {Uint8Array} value
+* @param {string} value
 * @returns {any}
 */
-export function decodeScript(value: Uint8Array): any;
+export function fromBinaryScript(value: string): any;
 /**
 * @param {any} value
-* @returns {Uint8Array}
+* @returns {string}
 */
-export function encodeUint256(value: any): Uint8Array;
+export function toBinaryUint256(value: any): string;
 /**
-* @param {Uint8Array} value
+* @param {string} value
 * @returns {any}
 */
-export function decodeUint256(value: Uint8Array): any;
+export function fromBinaryUint256(value: string): any;
 /**
 * @param {any} value
-* @returns {Uint8Array}
+* @returns {string}
 */
-export function encodeTransaction(value: any): Uint8Array;
+export function toBinaryTransaction(value: any): string;
 /**
-* @param {Uint8Array} value
+* @param {string} value
 * @returns {any}
 */
-export function decodeTransaction(value: Uint8Array): any;
+export function fromBinaryTransaction(value: string): any;
 /**
 * @param {any} value
-* @returns {Uint8Array}
+* @returns {string}
 */
-export function encodePartialMerkleTree(value: any): Uint8Array;
+export function toBinaryPartialMerkleTree(value: any): string;
 /**
-* @param {Uint8Array} value
+* @param {string} value
 * @returns {any}
 */
-export function decodePartialMerkleTree(value: Uint8Array): any;
-/**
-* @param {any} value
-* @returns {Uint8Array}
-*/
-export function toBinaryHeaderConfig(value: any): Uint8Array;
-/**
-* @param {Uint8Array} value
-* @returns {any}
-*/
-export function fromBinaryHeaderConfig(value: Uint8Array): any;
-/**
-* @param {any} value
-* @returns {Uint8Array}
-*/
-export function toBinaryWorkHeader(value: any): Uint8Array;
-/**
-* @param {Uint8Array} value
-* @returns {any}
-*/
-export function fromBinaryWorkHeader(value: Uint8Array): any;
+export function fromBinaryPartialMerkleTree(value: string): any;
 /**
 * @param {SignatorySet} sigset
 * @param {number} bridge_fee_rate
@@ -118,9 +98,7 @@ export function getGlobalHeaderBatchSize(): number;
 * @returns {bigint}
 */
 export function getMaxSignatories(): bigint;
-export interface Adapter<T> {
-    inner: T;
-}
+export type Adapter<T> = string;
 
 export interface HeaderConfig {
     max_length: number;
@@ -208,7 +186,7 @@ export interface Share {
 export interface ThresholdSig {
     threshold: number;
     signed: number;
-    message: Message;
+    message: Uint8Array;
     len: number;
     sigs: [Pubkey, Share][];
 }
@@ -236,7 +214,7 @@ export type Sequence = number;
 export type Script = number[];
 
 export interface OutPoint {
-    txid: Txid;
+    txid: string;
     vout: number;
 }
 
@@ -260,6 +238,15 @@ export interface PartialMerkleTree {
     num_transactions: number;
     bits: boolean[];
     hashes: TxMerkleNode[];
+}
+
+export interface BlockHeader {
+    version: number;
+    prev_blockhash: BlockHash;
+    merkle_root: TxMerkleNode;
+    time: number;
+    bits: number;
+    nonce: number;
 }
 
 export type Dest = { Address: string } | { Ibc: IbcDest };

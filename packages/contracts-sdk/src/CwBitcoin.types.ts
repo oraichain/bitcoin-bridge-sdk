@@ -9,11 +9,11 @@ export type ExecuteMsg = {
   };
 } | {
   update_header_config: {
-    config: Binary;
+    config: HeaderConfig;
   };
 } | {
   add_work_header: {
-    header: Binary;
+    header: WorkHeader;
   };
 } | {
   relay_deposit: {
@@ -67,6 +67,26 @@ export interface CheckpointConfig {
   sigset_threshold: [number, number];
   target_checkpoint_inclusion: number;
   user_fee_factor: number;
+}
+export interface HeaderConfig {
+  max_length: number;
+  max_target: number;
+  max_time_increase: number;
+  min_difficulty_blocks: boolean;
+  retarget_interval: number;
+  retargeting: boolean;
+  target_spacing: number;
+  target_timespan: number;
+  trusted_header: Binary;
+  trusted_height: number;
+}
+export interface WorkHeader {
+  chain_work: Binary;
+  header: WrappedHeader;
+}
+export interface WrappedHeader {
+  header: Binary;
+  height: number;
 }
 export interface IbcDest {
   memo: string;

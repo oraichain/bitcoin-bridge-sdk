@@ -6,7 +6,7 @@
 
 import { CosmWasmClient, SigningCosmWasmClient, ExecuteResult } from "@cosmjs/cosmwasm-stargate";
 import { Coin, StdFee } from "@cosmjs/amino";
-import {InstantiateMsg, ExecuteMsg, Binary, Dest, Addr, BitcoinConfig, CheckpointConfig, IbcDest, QueryMsg, MigrateMsg, Uint64, Uint32} from "./CwBitcoin.types";
+import {InstantiateMsg, ExecuteMsg, Binary, Dest, Addr, BitcoinConfig, CheckpointConfig, HeaderConfig, WorkHeader, WrappedHeader, IbcDest, QueryMsg, MigrateMsg, Uint64, Uint32} from "./CwBitcoin.types";
 export interface CwBitcoinReadOnlyInterface {
   contractAddress: string;
   headerHeight: () => Promise<Uint32>;
@@ -82,12 +82,12 @@ export interface CwBitcoinInterface extends CwBitcoinReadOnlyInterface {
   updateHeaderConfig: ({
     config
   }: {
-    config: Binary;
+    config: HeaderConfig;
   }, _fee?: number | StdFee | "auto", _memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
   addWorkHeader: ({
     header
   }: {
-    header: Binary;
+    header: WorkHeader;
   }, _fee?: number | StdFee | "auto", _memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
   relayDeposit: ({
     btcHeight,
@@ -147,7 +147,7 @@ export class CwBitcoinClient extends CwBitcoinQueryClient implements CwBitcoinIn
   updateHeaderConfig = async ({
     config
   }: {
-    config: Binary;
+    config: HeaderConfig;
   }, _fee: number | StdFee | "auto" = "auto", _memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       update_header_config: {
@@ -158,7 +158,7 @@ export class CwBitcoinClient extends CwBitcoinQueryClient implements CwBitcoinIn
   addWorkHeader = async ({
     header
   }: {
-    header: Binary;
+    header: WorkHeader;
   }, _fee: number | StdFee | "auto" = "auto", _memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       add_work_header: {

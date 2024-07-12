@@ -2,7 +2,6 @@ import { SimulateCosmWasmClient } from '@oraichain/cw-simulate';
 import * as artifacts from '@oraichain/cw-bitcoin-contracts-build';
 import * as wasm from '@oraichain/cw-bitcoin-wasm';
 import { CwBitcoinClient } from '@oraichain/cw-bitcoin-contracts-sdk';
-import { toBinary } from '@cosmjs/cosmwasm-stargate';
 
 const senderAddress = 'orai1g4h64yjt0fvzv5v2j8tyfnpe5kmnetejvfgs7g';
 const client = new SimulateCosmWasmClient({ bech32Prefix: 'orai', chainId: 'Oraichain' });
@@ -23,12 +22,10 @@ const client = new SimulateCosmWasmClient({ bech32Prefix: 'orai', chainId: 'Orai
   console.log(headerConfig);
   let workHeader = wasm.newWorkHeader(headerConfig);
 
-  const config = Buffer.from(wasm.toBinaryHeaderConfig(headerConfig)).toString('base64');
-  console.log(config);
-  let ret = await cwBitcoin.updateHeaderConfig({ config });
+  let ret = await cwBitcoin.updateHeaderConfig({ config: headerConfig });
   console.log(ret);
-  let header = Buffer.from(wasm.toBinaryWorkHeader(workHeader)).toString('base64');
-  ret = await cwBitcoin.addWorkHeader({ header });
+
+  ret = await cwBitcoin.addWorkHeader({ header: workHeader });
 
   for (let i = 0; i < 10; ++i) {
     let btcHeight = await cwBitcoin.headerHeight();
@@ -42,10 +39,7 @@ const client = new SimulateCosmWasmClient({ bech32Prefix: 'orai', chainId: 'Orai
       nonce: 0
     });
 
-    workHeader = wasm.newWorkHeader(headerConfig);
-
-    let header = Buffer.from(wasm.toBinaryWorkHeader(workHeader)).toString('base64');
-    ret = await cwBitcoin.addWorkHeader({ header });
+    ret = await cwBitcoin.addWorkHeader({ header: workHeader });
     console.log(ret);
   }
 
@@ -67,8 +61,8 @@ const client = new SimulateCosmWasmClient({ bech32Prefix: 'orai', chainId: 'Orai
     try {
       ret = await cwBitcoin.relayDeposit({
         btcHeight: height,
-        btcTx: Buffer.from(wasm.encodeTransaction(btc_tx)).toString('base64'),
-        btcProof: Buffer.from(wasm.encodePartialMerkleTree(btc_proof)).toString('base64'),
+        btcTx: wasm.toBinaryTransaction(btc_tx),
+        btcProof: wasm.toBinaryPartialMerkleTree(btc_proof),
         btcVout: 0,
         sigsetIndex: 0,
         dest: { address: 'bob' }
