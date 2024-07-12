@@ -1,6 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 export const memory: WebAssembly.Memory;
+export function newDepositIndex(): number;
 export function newWrappedHeader(a: number, b: number): number;
 export function newHeaderConfig(a: number, b: number, c: number): void;
 export function newWorkHeader(a: number): number;

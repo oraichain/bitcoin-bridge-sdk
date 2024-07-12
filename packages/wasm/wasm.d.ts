@@ -1,11 +1,15 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
-* @param {Adapter} header
+* @returns {DepositIndex}
+*/
+export function newDepositIndex(): DepositIndex;
+/**
+* @param {BlockHeader} header
 * @param {number} height
 * @returns {WrappedHeader}
 */
-export function newWrappedHeader(header: Adapter, height: number): WrappedHeader;
+export function newWrappedHeader(header: BlockHeader, height: number): WrappedHeader;
 /**
 * @param {number} height
 * @param {any} block_header
@@ -197,7 +201,7 @@ export interface IbcDest {
 }
 
 export interface DepositIndex {
-    receiver_index: ReceiverIndex;
+    receiver_index: { [key: string]: { [key: string]: { [key: string]: Deposit } } };
 }
 
 export interface DepositInfo {
@@ -212,10 +216,58 @@ export interface Deposit {
     height: number | null;
 }
 
+export type Uint128 = number[];
+
+export type Uint256 = number[];
+
 export interface PartialMerkleTree {
     num_transactions: number;
     bits: boolean[];
     hashes: TxMerkleNode[];
+}
+
+export interface Address {
+    payload: Payload;
+    network: Network;
+}
+
+export type Payload = { PubkeyHash: PubkeyHash } | { ScriptHash: ScriptHash } | { WitnessProgram: { version: WitnessVersion; program: number[] } };
+
+export type WitnessVersion = "V0" | "V1" | "V2" | "V3" | "V4" | "V5" | "V6" | "V7" | "V8" | "V9" | "V10" | "V11" | "V12" | "V13" | "V14" | "V15" | "V16";
+
+export type FilterHeader = string;
+
+export type FilterHash = string;
+
+export type XpubIdentifier = string;
+
+export type WitnessCommitment = string;
+
+export type WitnessMerkleNode = string;
+
+export type TxMerkleNode = string;
+
+export type WScriptHash = string;
+
+export type WPubkeyHash = string;
+
+export type ScriptHash = string;
+
+export type PubkeyHash = string;
+
+export type Sighash = string;
+
+export type BlockHash = string;
+
+export type Wtxid = string;
+
+export type Txid = string;
+
+export interface Witness {
+    content: number[];
+    witness_elements: number;
+    last: number;
+    second_to_last: number;
 }
 
 export interface BlockHeader {
@@ -256,4 +308,6 @@ export interface OutPoint {
 export type Script = number[];
 
 export type PackedLockTime = number;
+
+export type Network = "Bitcoin" | "Testnet" | "Signet" | "Regtest";
 

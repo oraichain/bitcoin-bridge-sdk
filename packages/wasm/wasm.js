@@ -193,7 +193,15 @@ function debugString(val) {
     return className;
 }
 /**
-* @param {Adapter} header
+* @returns {DepositIndex}
+*/
+module.exports.newDepositIndex = function() {
+    const ret = wasm.newDepositIndex();
+    return takeObject(ret);
+};
+
+/**
+* @param {BlockHeader} header
 * @param {number} height
 * @returns {WrappedHeader}
 */
@@ -539,10 +547,6 @@ module.exports.__wbindgen_error_new = function(arg0, arg1) {
     return addHeapObject(ret);
 };
 
-module.exports.__wbindgen_object_drop_ref = function(arg0) {
-    takeObject(arg0);
-};
-
 module.exports.__wbindgen_object_clone_ref = function(arg0) {
     const ret = getObject(arg0);
     return addHeapObject(ret);
@@ -551,6 +555,10 @@ module.exports.__wbindgen_object_clone_ref = function(arg0) {
 module.exports.__wbindgen_is_undefined = function(arg0) {
     const ret = getObject(arg0) === undefined;
     return ret;
+};
+
+module.exports.__wbindgen_object_drop_ref = function(arg0) {
+    takeObject(arg0);
 };
 
 module.exports.__wbindgen_is_object = function(arg0) {
