@@ -18,35 +18,45 @@ export function newHeaderConfig(height: number, block_header: any): HeaderConfig
 */
 export function newWorkHeader(header_config: HeaderConfig): WorkHeader;
 /**
-* @param {any} value
+* @param {BlockHeader} inner
 * @returns {string}
 */
-export function toBinaryBlockHeader(value: any): string;
+export function toBinaryBlockHeader(inner: BlockHeader): string;
 /**
 * @param {string} value
-* @returns {any}
+* @returns {BlockHeader}
 */
-export function fromBinaryBlockHeader(value: string): any;
+export function fromBinaryBlockHeader(value: string): BlockHeader;
 /**
-* @param {any} value
+* @param {Script} inner
 * @returns {string}
 */
-export function toBinaryScript(value: any): string;
+export function toBinaryScript(inner: Script): string;
 /**
 * @param {string} value
-* @returns {any}
+* @returns {Script}
 */
-export function fromBinaryScript(value: string): any;
+export function fromBinaryScript(value: string): Script;
 /**
-* @param {any} value
+* @param {Uint256} inner
 * @returns {string}
 */
-export function toBinaryUint256(value: any): string;
+export function toBinaryUint256(inner: Uint256): string;
 /**
 * @param {string} value
-* @returns {any}
+* @returns {Uint256}
 */
-export function fromBinaryUint256(value: string): any;
+export function fromBinaryUint256(value: string): Uint256;
+/**
+* @param {PartialMerkleTree} inner
+* @returns {string}
+*/
+export function toBinaryPartialMerkleTree(inner: PartialMerkleTree): string;
+/**
+* @param {string} value
+* @returns {PartialMerkleTree}
+*/
+export function fromBinaryPartialMerkleTree(value: string): PartialMerkleTree;
 /**
 * @param {any} value
 * @returns {string}
@@ -57,16 +67,6 @@ export function toBinaryTransaction(value: any): string;
 * @returns {any}
 */
 export function fromBinaryTransaction(value: string): any;
-/**
-* @param {any} value
-* @returns {string}
-*/
-export function toBinaryPartialMerkleTree(value: any): string;
-/**
-* @param {string} value
-* @returns {any}
-*/
-export function fromBinaryPartialMerkleTree(value: string): any;
 /**
 * @param {SignatorySet} sigset
 * @param {number} bridge_fee_rate
@@ -257,6 +257,8 @@ export interface IbcDest {
     timeout_timestamp: number;
     memo: string;
 }
+
+export type Uint256 = number[];
 
 export interface DepositIndex {
     receiver_index: ReceiverIndex;

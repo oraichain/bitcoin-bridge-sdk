@@ -19,7 +19,6 @@ const client = new SimulateCosmWasmClient({ bech32Prefix: 'orai', chainId: 'Orai
     nonce: 4602308
   });
 
-  console.log(headerConfig);
   let workHeader = wasm.newWorkHeader(headerConfig);
 
   let ret = await cwBitcoin.updateHeaderConfig({ config: headerConfig });

@@ -1,11 +1,15 @@
 let imports = {};
 imports['__wbindgen_placeholder__'] = module.exports;
 let wasm;
-const { TextDecoder, TextEncoder } = require(`util`);
+const { TextEncoder, TextDecoder } = require(`util`);
 
-let cachedTextDecoder = new TextDecoder('utf-8', { ignoreBOM: true, fatal: true });
+const heap = new Array(128).fill(undefined);
 
-cachedTextDecoder.decode();
+heap.push(undefined, null, true, false);
+
+function getObject(idx) { return heap[idx]; }
+
+let WASM_VECTOR_LEN = 0;
 
 let cachedUint8Memory0 = null;
 
@@ -15,30 +19,6 @@ function getUint8Memory0() {
     }
     return cachedUint8Memory0;
 }
-
-function getStringFromWasm0(ptr, len) {
-    ptr = ptr >>> 0;
-    return cachedTextDecoder.decode(getUint8Memory0().subarray(ptr, ptr + len));
-}
-
-const heap = new Array(128).fill(undefined);
-
-heap.push(undefined, null, true, false);
-
-let heap_next = heap.length;
-
-function addHeapObject(obj) {
-    if (heap_next === heap.length) heap.push(heap.length + 1);
-    const idx = heap_next;
-    heap_next = heap[idx];
-
-    heap[idx] = obj;
-    return idx;
-}
-
-function getObject(idx) { return heap[idx]; }
-
-let WASM_VECTOR_LEN = 0;
 
 let cachedTextEncoder = new TextEncoder('utf-8');
 
@@ -105,6 +85,26 @@ function getInt32Memory0() {
         cachedInt32Memory0 = new Int32Array(wasm.memory.buffer);
     }
     return cachedInt32Memory0;
+}
+
+let cachedTextDecoder = new TextDecoder('utf-8', { ignoreBOM: true, fatal: true });
+
+cachedTextDecoder.decode();
+
+function getStringFromWasm0(ptr, len) {
+    ptr = ptr >>> 0;
+    return cachedTextDecoder.decode(getUint8Memory0().subarray(ptr, ptr + len));
+}
+
+let heap_next = heap.length;
+
+function addHeapObject(obj) {
+    if (heap_next === heap.length) heap.push(heap.length + 1);
+    const idx = heap_next;
+    heap_next = heap[idx];
+
+    heap[idx] = obj;
+    return idx;
 }
 
 function dropObject(idx) {
@@ -242,15 +242,15 @@ module.exports.newWorkHeader = function(header_config) {
 };
 
 /**
-* @param {any} value
+* @param {BlockHeader} inner
 * @returns {string}
 */
-module.exports.toBinaryBlockHeader = function(value) {
+module.exports.toBinaryBlockHeader = function(inner) {
     let deferred2_0;
     let deferred2_1;
     try {
         const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-        wasm.toBinaryBlockHeader(retptr, addHeapObject(value));
+        wasm.toBinaryBlockHeader(retptr, addHeapObject(inner));
         var r0 = getInt32Memory0()[retptr / 4 + 0];
         var r1 = getInt32Memory0()[retptr / 4 + 1];
         var r2 = getInt32Memory0()[retptr / 4 + 2];
@@ -272,7 +272,7 @@ module.exports.toBinaryBlockHeader = function(value) {
 
 /**
 * @param {string} value
-* @returns {any}
+* @returns {BlockHeader}
 */
 module.exports.fromBinaryBlockHeader = function(value) {
     try {
@@ -293,15 +293,15 @@ module.exports.fromBinaryBlockHeader = function(value) {
 };
 
 /**
-* @param {any} value
+* @param {Script} inner
 * @returns {string}
 */
-module.exports.toBinaryScript = function(value) {
+module.exports.toBinaryScript = function(inner) {
     let deferred2_0;
     let deferred2_1;
     try {
         const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-        wasm.toBinaryScript(retptr, addHeapObject(value));
+        wasm.toBinaryScript(retptr, addHeapObject(inner));
         var r0 = getInt32Memory0()[retptr / 4 + 0];
         var r1 = getInt32Memory0()[retptr / 4 + 1];
         var r2 = getInt32Memory0()[retptr / 4 + 2];
@@ -323,7 +323,7 @@ module.exports.toBinaryScript = function(value) {
 
 /**
 * @param {string} value
-* @returns {any}
+* @returns {Script}
 */
 module.exports.fromBinaryScript = function(value) {
     try {
@@ -344,15 +344,15 @@ module.exports.fromBinaryScript = function(value) {
 };
 
 /**
-* @param {any} value
+* @param {Uint256} inner
 * @returns {string}
 */
-module.exports.toBinaryUint256 = function(value) {
+module.exports.toBinaryUint256 = function(inner) {
     let deferred2_0;
     let deferred2_1;
     try {
         const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-        wasm.toBinaryUint256(retptr, addHeapObject(value));
+        wasm.toBinaryUint256(retptr, addHeapObject(inner));
         var r0 = getInt32Memory0()[retptr / 4 + 0];
         var r1 = getInt32Memory0()[retptr / 4 + 1];
         var r2 = getInt32Memory0()[retptr / 4 + 2];
@@ -374,7 +374,7 @@ module.exports.toBinaryUint256 = function(value) {
 
 /**
 * @param {string} value
-* @returns {any}
+* @returns {Uint256}
 */
 module.exports.fromBinaryUint256 = function(value) {
     try {
@@ -382,6 +382,57 @@ module.exports.fromBinaryUint256 = function(value) {
         const ptr0 = passStringToWasm0(value, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
         const len0 = WASM_VECTOR_LEN;
         wasm.fromBinaryUint256(retptr, ptr0, len0);
+        var r0 = getInt32Memory0()[retptr / 4 + 0];
+        var r1 = getInt32Memory0()[retptr / 4 + 1];
+        var r2 = getInt32Memory0()[retptr / 4 + 2];
+        if (r2) {
+            throw takeObject(r1);
+        }
+        return takeObject(r0);
+    } finally {
+        wasm.__wbindgen_add_to_stack_pointer(16);
+    }
+};
+
+/**
+* @param {PartialMerkleTree} inner
+* @returns {string}
+*/
+module.exports.toBinaryPartialMerkleTree = function(inner) {
+    let deferred2_0;
+    let deferred2_1;
+    try {
+        const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+        wasm.toBinaryPartialMerkleTree(retptr, addHeapObject(inner));
+        var r0 = getInt32Memory0()[retptr / 4 + 0];
+        var r1 = getInt32Memory0()[retptr / 4 + 1];
+        var r2 = getInt32Memory0()[retptr / 4 + 2];
+        var r3 = getInt32Memory0()[retptr / 4 + 3];
+        var ptr1 = r0;
+        var len1 = r1;
+        if (r3) {
+            ptr1 = 0; len1 = 0;
+            throw takeObject(r2);
+        }
+        deferred2_0 = ptr1;
+        deferred2_1 = len1;
+        return getStringFromWasm0(ptr1, len1);
+    } finally {
+        wasm.__wbindgen_add_to_stack_pointer(16);
+        wasm.__wbindgen_free(deferred2_0, deferred2_1, 1);
+    }
+};
+
+/**
+* @param {string} value
+* @returns {PartialMerkleTree}
+*/
+module.exports.fromBinaryPartialMerkleTree = function(value) {
+    try {
+        const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+        const ptr0 = passStringToWasm0(value, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+        const len0 = WASM_VECTOR_LEN;
+        wasm.fromBinaryPartialMerkleTree(retptr, ptr0, len0);
         var r0 = getInt32Memory0()[retptr / 4 + 0];
         var r1 = getInt32Memory0()[retptr / 4 + 1];
         var r2 = getInt32Memory0()[retptr / 4 + 2];
@@ -433,57 +484,6 @@ module.exports.fromBinaryTransaction = function(value) {
         const ptr0 = passStringToWasm0(value, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
         const len0 = WASM_VECTOR_LEN;
         wasm.fromBinaryTransaction(retptr, ptr0, len0);
-        var r0 = getInt32Memory0()[retptr / 4 + 0];
-        var r1 = getInt32Memory0()[retptr / 4 + 1];
-        var r2 = getInt32Memory0()[retptr / 4 + 2];
-        if (r2) {
-            throw takeObject(r1);
-        }
-        return takeObject(r0);
-    } finally {
-        wasm.__wbindgen_add_to_stack_pointer(16);
-    }
-};
-
-/**
-* @param {any} value
-* @returns {string}
-*/
-module.exports.toBinaryPartialMerkleTree = function(value) {
-    let deferred2_0;
-    let deferred2_1;
-    try {
-        const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-        wasm.toBinaryPartialMerkleTree(retptr, addHeapObject(value));
-        var r0 = getInt32Memory0()[retptr / 4 + 0];
-        var r1 = getInt32Memory0()[retptr / 4 + 1];
-        var r2 = getInt32Memory0()[retptr / 4 + 2];
-        var r3 = getInt32Memory0()[retptr / 4 + 3];
-        var ptr1 = r0;
-        var len1 = r1;
-        if (r3) {
-            ptr1 = 0; len1 = 0;
-            throw takeObject(r2);
-        }
-        deferred2_0 = ptr1;
-        deferred2_1 = len1;
-        return getStringFromWasm0(ptr1, len1);
-    } finally {
-        wasm.__wbindgen_add_to_stack_pointer(16);
-        wasm.__wbindgen_free(deferred2_0, deferred2_1, 1);
-    }
-};
-
-/**
-* @param {string} value
-* @returns {any}
-*/
-module.exports.fromBinaryPartialMerkleTree = function(value) {
-    try {
-        const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-        const ptr0 = passStringToWasm0(value, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
-        const len0 = WASM_VECTOR_LEN;
-        wasm.fromBinaryPartialMerkleTree(retptr, ptr0, len0);
         var r0 = getInt32Memory0()[retptr / 4 + 0];
         var r1 = getInt32Memory0()[retptr / 4 + 1];
         var r2 = getInt32Memory0()[retptr / 4 + 2];
@@ -594,11 +594,6 @@ function handleError(f, args) {
     }
 }
 
-module.exports.__wbindgen_error_new = function(arg0, arg1) {
-    const ret = new Error(getStringFromWasm0(arg0, arg1));
-    return addHeapObject(ret);
-};
-
 module.exports.__wbindgen_string_get = function(arg0, arg1) {
     const obj = getObject(arg1);
     const ret = typeof(obj) === 'string' ? obj : undefined;
@@ -606,6 +601,11 @@ module.exports.__wbindgen_string_get = function(arg0, arg1) {
     var len1 = WASM_VECTOR_LEN;
     getInt32Memory0()[arg0 / 4 + 1] = len1;
     getInt32Memory0()[arg0 / 4 + 0] = ptr1;
+};
+
+module.exports.__wbindgen_error_new = function(arg0, arg1) {
+    const ret = new Error(getStringFromWasm0(arg0, arg1));
+    return addHeapObject(ret);
 };
 
 module.exports.__wbindgen_object_drop_ref = function(arg0) {
@@ -648,14 +648,14 @@ module.exports.__wbindgen_object_clone_ref = function(arg0) {
     return addHeapObject(ret);
 };
 
-module.exports.__wbindgen_boolean_get = function(arg0) {
-    const v = getObject(arg0);
-    const ret = typeof(v) === 'boolean' ? (v ? 1 : 0) : 2;
+module.exports.__wbindgen_jsval_loose_eq = function(arg0, arg1) {
+    const ret = getObject(arg0) == getObject(arg1);
     return ret;
 };
 
-module.exports.__wbindgen_jsval_loose_eq = function(arg0, arg1) {
-    const ret = getObject(arg0) == getObject(arg1);
+module.exports.__wbindgen_boolean_get = function(arg0) {
+    const v = getObject(arg0);
+    const ret = typeof(v) === 'boolean' ? (v ? 1 : 0) : 2;
     return ret;
 };
 
