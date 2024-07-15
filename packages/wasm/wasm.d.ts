@@ -180,7 +180,7 @@ export interface Share {
 export interface ThresholdSig {
     threshold: number;
     signed: number;
-    message: Uint8Array;
+    message: Message;
     len: number;
     sigs: [Pubkey, Share][];
 }
@@ -190,6 +190,8 @@ export interface Pubkey {
 }
 
 export type Signature = number[];
+
+export type Message = number[];
 
 export type Dest = { Address: string } | { Ibc: IbcDest };
 

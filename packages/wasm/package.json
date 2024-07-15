@@ -1,5 +1,5 @@
 {
-  "name": "wasm",
+  "name": "@oraichain/cw-bitcoin-wasm",
   "collaborators": [
     "Oraichain Labs"
   ],
