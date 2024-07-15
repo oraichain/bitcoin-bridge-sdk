@@ -481,6 +481,15 @@ module.exports.newSignatorySet = function(hex_script, numerator, denominator) {
 };
 
 /**
+* @param {Shares} shares
+* @returns {ThresholdSig}
+*/
+module.exports.newThresholdSig = function(shares) {
+    const ret = wasm.newThresholdSig(addHeapObject(shares));
+    return takeObject(ret);
+};
+
+/**
 * @returns {number}
 */
 module.exports.getGlobalBridgeFeeRate = function() {

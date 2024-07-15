@@ -77,6 +77,11 @@ export function newRawSignatorySet(sigset: SignatorySet, bridge_fee_rate: number
 */
 export function newSignatorySet(hex_script: string, numerator: bigint, denominator: bigint): SignatorySet;
 /**
+* @param {Shares} shares
+* @returns {ThresholdSig}
+*/
+export function newThresholdSig(shares: Shares): ThresholdSig;
+/**
 * @returns {number}
 */
 export function getGlobalBridgeFeeRate(): number;
@@ -172,9 +177,12 @@ export interface SignatorySet {
     signatories: Signatory[];
 }
 
-export interface Share {
-    power: number;
-    sig: Signature | null;
+export type Message = number[];
+
+export type Signature = number[];
+
+export interface Pubkey {
+    bytes: number[];
 }
 
 export interface ThresholdSig {
@@ -185,13 +193,12 @@ export interface ThresholdSig {
     sigs: [Pubkey, Share][];
 }
 
-export interface Pubkey {
-    bytes: number[];
+export interface Share {
+    power: number;
+    sig?: Signature;
 }
 
-export type Signature = number[];
-
-export type Message = number[];
+export type Shares = [Pubkey, Share][];
 
 export type Dest = { Address: string } | { Ibc: IbcDest };
 
@@ -215,7 +222,7 @@ export interface Deposit {
     txid: Txid;
     vout: number;
     amount: number;
-    height: number | null;
+    height?: number;
 }
 
 export type Uint128 = number[];

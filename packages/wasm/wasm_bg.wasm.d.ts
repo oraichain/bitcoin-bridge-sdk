@@ -15,6 +15,7 @@ export function toBinaryTransaction(a: number, b: number): void;
 export function fromBinaryTransaction(a: number, b: number, c: number): void;
 export function newRawSignatorySet(a: number, b: number, c: number, d: number): number;
 export function newSignatorySet(a: number, b: number, c: number, d: number, e: number): void;
+export function newThresholdSig(a: number): number;
 export function getGlobalBridgeFeeRate(): number;
 export function getGlobalSigsetThreshold(a: number): void;
 export function getGlobalHeaderBatchSize(): number;
