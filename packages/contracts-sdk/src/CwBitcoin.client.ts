@@ -6,7 +6,7 @@
 
 import { CosmWasmClient, SigningCosmWasmClient, ExecuteResult } from "@cosmjs/cosmwasm-stargate";
 import { Coin, StdFee } from "@cosmjs/amino";
-import {InstantiateMsg, ExecuteMsg, Binary, Dest, Addr, BitcoinConfig, CheckpointConfig, HeaderConfig, WorkHeader, WrappedHeader, IbcDest, QueryMsg, MigrateMsg, Uint64, Uint32} from "./CwBitcoin.types";
+import {InstantiateMsg, ExecuteMsg, Binary, Dest, Addr, BitcoinConfig, CheckpointConfig, HeaderConfig, WorkHeader, WrappedHeader, IbcDest, QueryMsg, MigrateMsg, Uint64, Uint32, HexBinary} from "./CwBitcoin.types";
 export interface CwBitcoinReadOnlyInterface {
   contractAddress: string;
   headerHeight: () => Promise<Uint32>;
@@ -22,6 +22,12 @@ export interface CwBitcoinReadOnlyInterface {
     address: string;
     index?: number;
   }) => Promise<Uint64>;
+  sidechainBlockHash: () => Promise<HexBinary>;
+  checkpointByIndex: ({
+    index
+  }: {
+    index: number;
+  }) => Promise<Uint64>;
 }
 export class CwBitcoinQueryClient implements CwBitcoinReadOnlyInterface {
   client: CosmWasmClient;
@@ -33,6 +39,8 @@ export class CwBitcoinQueryClient implements CwBitcoinReadOnlyInterface {
     this.headerHeight = this.headerHeight.bind(this);
     this.depositFees = this.depositFees.bind(this);
     this.withdrawalFees = this.withdrawalFees.bind(this);
+    this.sidechainBlockHash = this.sidechainBlockHash.bind(this);
+    this.checkpointByIndex = this.checkpointByIndex.bind(this);
   }
 
   headerHeight = async (): Promise<Uint32> => {
@@ -61,6 +69,22 @@ export class CwBitcoinQueryClient implements CwBitcoinReadOnlyInterface {
     return this.client.queryContractSmart(this.contractAddress, {
       withdrawal_fees: {
         address,
+        index
+      }
+    });
+  };
+  sidechainBlockHash = async (): Promise<HexBinary> => {
+    return this.client.queryContractSmart(this.contractAddress, {
+      sidechain_block_hash: {}
+    });
+  };
+  checkpointByIndex = async ({
+    index
+  }: {
+    index: number;
+  }): Promise<Uint64> => {
+    return this.client.queryContractSmart(this.contractAddress, {
+      checkpoint_by_index: {
         index
       }
     });

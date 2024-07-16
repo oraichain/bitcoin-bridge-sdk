@@ -105,7 +105,14 @@ export type QueryMsg = {
     address: string;
     index?: number | null;
   };
+} | {
+  sidechain_block_hash: {};
+} | {
+  checkpoint_by_index: {
+    index: number;
+  };
 };
 export interface MigrateMsg {}
 export type Uint64 = number;
 export type Uint32 = number;
+export type HexBinary = string;
